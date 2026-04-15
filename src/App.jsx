@@ -1,14 +1,11 @@
-import Navbar from "./components/Navbar";
-import PlantList from "./components/PlantList";
-import Cart from "./components/Cart";
+import "./App.css";
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <PlantList />
-      <Cart />
-    </>
+    <div className="app-container">
+      <h1>Paradise Nursery</h1>
+      <button>Get Started</button>
+    </div>
   );
 }
 
