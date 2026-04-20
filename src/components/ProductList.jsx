@@ -1,54 +1,47 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { addItem } from "../redux/CartSlice";
+import React, { useState } from "react";
 
 const plants = [
-  { id: 1, name: "Snake Plant", price: 10, category: "Indoor", image: "https://via.placeholder.com/150" },
-  { id: 2, name: "Aloe Vera", price: 8, category: "Indoor", image: "https://via.placeholder.com/150" },
-  { id: 3, name: "Rose", price: 15, category: "Outdoor", image: "https://via.placeholder.com/150" },
-  { id: 4, name: "Tulip", price: 12, category: "Outdoor", image: "https://via.placeholder.com/150" }
+  { id: 1, name: "Aloe Vera", price: 10, image: "img1" },
+  { id: 2, name: "Snake Plant", price: 12, image: "img2" },
+  { id: 3, name: "Peace Lily", price: 15, image: "img3" },
+  { id: 4, name: "Spider Plant", price: 8, image: "img4" },
+  { id: 5, name: "Fern", price: 9, image: "img5" },
+  { id: 6, name: "Cactus", price: 7, image: "img6" },
 ];
 
-function ProductList() {
-  const dispatch = useDispatch();
+const ProductList = () => {
+  const [addedItems, setAddedItems] = useState([]);
 
-  const handleAdd = (plant) => {
-    dispatch(addItem(plant));
+  const handleAdd = (id) => {
+    setAddedItems([...addedItems, id]);
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>🌿 Paradise Nursery Plants</h1>
+    <div>
+      {/* Navbar */}
+      <nav>
+        <h2>Paradise Nursery</h2>
+      </nav>
 
-      <h2>Indoor Plants</h2>
-      <div style={{ display: "flex", gap: "20px" }}>
-        {plants
-          .filter((p) => p.category === "Indoor")
-          .map((plant) => (
-            <div key={plant.id} style={{ border: "1px solid gray", padding: "10px" }}>
-              <img src={plant.image} alt={plant.name} />
-              <h3>{plant.name}</h3>
-              <p>₹{plant.price}</p>
-              <button onClick={() => handleAdd(plant)}>Add to Cart</button>
-            </div>
-          ))}
-      </div>
+      <div className="product-list">
+        {plants.map((plant) => (
+          <div key={plant.id}>
+            <h3>{plant.name}</h3>
+            <p>${plant.price}</p>
 
-      <h2>Outdoor Plants</h2>
-      <div style={{ display: "flex", gap: "20px" }}>
-        {plants
-          .filter((p) => p.category === "Outdoor")
-          .map((plant) => (
-            <div key={plant.id} style={{ border: "1px solid gray", padding: "10px" }}>
-              <img src={plant.image} alt={plant.name} />
-              <h3>{plant.name}</h3>
-              <p>₹{plant.price}</p>
-              <button onClick={() => handleAdd(plant)}>Add to Cart</button>
-            </div>
-          ))}
+            <button
+              onClick={() => handleAdd(plant.id)}
+              disabled={addedItems.includes(plant.id)}
+            >
+              {addedItems.includes(plant.id)
+                ? "Added"
+                : "Add to Cart"}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default ProductList;
