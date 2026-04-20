@@ -4,15 +4,19 @@ function AboutUs() {
   return (
     <div style={{ padding: "20px" }}>
       <h1>About Paradise Nursery 🌿</h1>
+
       <p>
-        Paradise Nursery is an online plant shopping platform that offers a wide
-        variety of indoor and outdoor plants. Our mission is to bring greenery
-        into every home.
+        Paradise Nursery is a leading online plant store that provides a wide
+        variety of indoor and outdoor plants to customers across the country.
       </p>
 
       <p>
-        We provide high-quality plants, fast delivery, and excellent customer
-        service to ensure customer satisfaction.
+        Our mission is to bring nature closer to your home and promote a greener
+        lifestyle through high-quality plants and gardening solutions.
+      </p>
+
+      <p>
+        We ensure fast delivery, healthy plants, and excellent customer service.
       </p>
     </div>
   );
