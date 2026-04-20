@@ -1,23 +1,23 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "../redux/CartSlice";
+import { removeItem, updateQuantity } from "../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 
-function CartItem() {
-  const cartItems = useSelector((state) => state.cart.cartItems);
+const CartItem = () => {
+  const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-
-  const handleIncrease = (item) => {
-    dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
-  };
-
-  const handleDecrease = (item) => {
-    if (item.quantity > 1) {
-      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
-    }
-  };
+  const navigate = useNavigate();
 
   const handleRemove = (id) => {
     dispatch(removeItem(id));
+  };
+
+  const handleIncrease = (item) => {
+    dispatch(updateQuantity({ id: item.id, amount: 1 }));
+  };
+
+  const handleDecrease = (item) => {
+    dispatch(updateQuantity({ id: item.id, amount: -1 }));
   };
 
   const totalAmount = cartItems.reduce(
@@ -26,35 +26,41 @@ function CartItem() {
   );
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>🛒 Shopping Cart</h1>
+    <div>
+      <h2>Your Cart</h2>
 
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        cartItems.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              border: "1px solid gray",
-              margin: "10px",
-              padding: "10px",
-            }}
+      {cartItems.map((item) => (
+        <div key={item.id} className="cart-item">
+          <h3>{item.name}</h3>
+          <p>Price: ${item.price}</p>
+          <p>Quantity: {item.quantity}</p>
+
+          {/* Quantity Controls */}
+          <button onClick={() => handleIncrease(item)}>+</button>
+          <button onClick={() => handleDecrease(item)}>-</button>
+
+          {/* ✅ REQUIRED DELETE BUTTON */}
+          <button
+            className="cart-item-delete"
+            onClick={() => handleRemove(item.id)}
           >
-            <h3>{item.name}</h3>
-            <p>Price: ₹{item.price}</p>
-            <p>Quantity: {item.quantity}</p>
+            Delete
+          </button>
+        </div>
+      ))}
 
-            <button onClick={() => handleIncrease(item)}>+</button>
-            <button onClick={() => handleDecrease(item)}>-</button>
-            <button onClick={() => handleRemove(item.id)}>Remove</button>
-          </div>
-        ))
-      )}
+      <h3>Total: ${totalAmount}</h3>
 
-      <h2>Total: ₹{totalAmount}</h2>
+      {/* ✅ REQUIRED BUTTONS */}
+      <button onClick={() => alert("Checkout Successful!")}>
+        Checkout
+      </button>
+
+      <button onClick={() => navigate("/")}>
+        Continue Shopping
+      </button>
     </div>
   );
-}
+};
 
 export default CartItem;
